@@ -35,7 +35,7 @@ class headers:
 
 class Page:
     def __init__(self, url, url_replacers, space_replacer ,boxes, highlights,
-    urls, name_and_images, reviews, stars, price):
+    product_urls, name_and_images, reviews, stars, price):
         '''Page URl with name of the format replacers'''
         self.url = url 
 
@@ -51,11 +51,23 @@ class Page:
         self.highlights = highlights
 
         #Products Info
-        self.urls = urls
+        self.product_urls = product_urls
         self.name_and_images = name_and_images
         self.reviews = reviews
         self.stars = stars
         self.price = price
+    
+    def adapt_url(self, Page, country_domain, user_request):
+        if country_domain[0] != ".":
+            country_domain = '.' + country_domain
+
+        user_request_adapted = user_request.replace(' ', Page.space_replacer)
+
+        adapted_url = Page.url.replace(Page.url_replacers[0], country_domain)
+        adapted_url = adapted_url.replace(Page.url_replacers[1], user_request_adapted)
+
+        return adapted_url
+
         
 
 
@@ -64,7 +76,7 @@ Amazon = Page(url='https://www.amazon.com{country}/s?k={user_request}',
     space_replacer='+',
     boxes=('div', 'data-component-type', 's-search-result'),
     highlights=('div', 'class', 'a-row a-badge-region'),
-    urls=('a', 'class', 'a-link-normal'),
+    product_urls=('a', 'class', 'a-link-normal'),
     name_and_images=('div', 'class', 'a-section a-spacing-small'),
     reviews=('a', 'class', 'a-size-small a-link-normal'),
     stars=('span', 'class', 'a-icon-alt'),
@@ -81,3 +93,7 @@ Amazon = Page(url='https://www.amazon.com{country}/s?k={user_request}',
 
 
 if __name__ == '__main__':
+    user_request = 'audifonos inalambricos'
+    country = 'mx'
+    amz_url = Amazon.adapt_url(Amazon, country, user_request)
+    print(amz_url)
