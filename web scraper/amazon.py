@@ -1,15 +1,20 @@
 from scrape_data import Amazon
-from scrape_funcs import extract_soup, search_boxes, get_info
+from scrape_funcs import extract_soup, search_boxes, get_stars
 from bs4 import BeautifulSoup
 
 user_request = 'audifonos inalambricos'
 country = 'mx'
-amz_url = Amazon.adapt_url(Amazon, country, user_request)
-amz_soup = extract_soup(amz_url, 1, just_soup=True)
+amazon_url = Amazon.adapt_url(Amazon, country, user_request)
 
-amz_boxes = search_boxes(amz_soup, Amazon.boxes)
+#All the HTML of the page
+amazon_soup = extract_soup(amazon_url, 1, just_soup=True)
 
-amazon_info = get_info(amz_boxes, Amazon.stars)
-print(amazon_info)
+#HTML divided by products, and stored as elements of an array
+amazon_boxes = search_boxes(amazon_soup, Amazon.boxes)
+
+#Just stars as float
+amazon_stars = get_stars(amazon_boxes, Amazon.stars)
+
+
 # for highlight in amazon_highlightners:
 #     print(highlight)
