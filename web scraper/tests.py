@@ -2,7 +2,7 @@ import unittest
 
 from scrape_data import Amazon
 from scrape_funcs import extract_soup, search_boxes, get_brute_info
-from data_filters import get_names, get_images, get_products_urls
+from data_filters import get_names, get_images, get_products_urls, get_price
 #Amazon Only
 from data_filters import get_stars, get_reviews, amazon_products_id
 
@@ -85,11 +85,12 @@ class Test_Amazon_Properties_And_Functions(unittest.TestCase):
         amazon_names = len(get_names(amazon_boxes, Amazon.name_and_images))
         amazon_images = len(get_images(amazon_boxes, Amazon.name_and_images))
         amazon_urls = len(get_products_urls(amazon_boxes, Amazon.product_urls))
+        amazon_price = len(get_price(country, amazon_boxes, Amazon.price))
         amazon_ids = len(amazon_products_id(amazon_boxes))
         amazon_reviews = len(get_reviews(country, amazon_boxes, Amazon.reviews))
         amazon_stars = len(get_stars(country, amazon_boxes, Amazon.stars))
 
-        trials = [amazon_names, amazon_images, amazon_urls, amazon_ids, amazon_reviews, amazon_stars]
+        trials = [amazon_names, amazon_images, amazon_urls, amazon_price, amazon_ids, amazon_reviews, amazon_stars]
         for test in trials:
             self.assertEquals(len(amazon_boxes), test)
 
