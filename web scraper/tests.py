@@ -67,8 +67,20 @@ class Test_Amazon_Properties(unittest.TestCase):
         amazon_string_stars = get_brute_info(amazon_boxes, Amazon.stars)
         
         #New test
-        amazon_stars = get_stars(amazon_string_stars)
+        amazon_stars = get_stars(amazon_boxes, Amazon.stars)
         self.assertEqual(len(amazon_boxes), len(amazon_string_stars), len(amazon_stars))
+
+    def test_get_stars_without_string_function(self):
+        user_request = 'audifonos inalambricos'
+        country = 'mx'
+        amazon_url = Amazon.adapt_url(Amazon, country, user_request)
+        amazon_soup = extract_soup(amazon_url, 1, just_soup=True)
+        amazon_boxes = search_boxes(amazon_soup, Amazon.boxes)
+
+        amazon_stars = get_stars(amazon_boxes, Amazon.stars)
+        self.assertEqual(len(amazon_boxes), len(amazon_stars))
+
+
     # def test_user_request_wallmart_adaption(self):
     #     user_request = 'audifonos inalambricos'
     #     wm_user_request_edited = user_request.replace(' ', replacers.wallmart)
