@@ -1,5 +1,6 @@
 from scrape_data import Amazon
-from scrape_funcs import extract_soup, search_boxes, get_stars
+from scrape_funcs import extract_soup, search_boxes, get_brute_info
+from data_filters import get_stars
 from bs4 import BeautifulSoup
 
 user_request = 'audifonos inalambricos'
@@ -14,6 +15,7 @@ amazon_boxes = search_boxes(amazon_soup, Amazon.boxes)
 
 #Just stars as float
 amazon_stars = get_stars(amazon_boxes, Amazon.stars)
+print(amazon_stars)
 
 
 # for highlight in amazon_highlightners:
