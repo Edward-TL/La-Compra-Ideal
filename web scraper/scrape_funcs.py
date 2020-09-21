@@ -25,17 +25,34 @@ def search_boxes(soup, box_tuple):
 
     return boxes
 
-def get_info(boxes_array, info_tuple):
-    info = []
+def get_brute_info(boxes_array, info_tuple):
+    '''Returns the brute text from the html depending of the info you asked'''
+    info = [None]*len(boxes_array)
     searcher = None
-
+    i=0
     for box in boxes_array:
+        searcher = search_boxes(box, info_tuple)
+        info[i] = searcher
+        searcher = None
+        i += 1
+    
+    return info
+
+#Name pending, could change with others scrapers
+def get_stars(boxes_array, info_tuple):
+    stars = [None]*len(boxes_array)
+
+    b=0
+    for box in boxes_array:
+        #Remember that boxes are arrays
         searcher = search_boxes(box, info_tuple)
 
         if searcher:
-            info.append(searcher)
-            searcher = None
+            stars[b] = float(searcher[0].get_text()[:3])
+
+        else: stars[b] = searcher
+        b +=1
     
-    return info
+    return stars
 
 
