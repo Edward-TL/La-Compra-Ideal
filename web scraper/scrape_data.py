@@ -52,10 +52,12 @@ class Page:
 
         #Products Info
         self.product_urls = product_urls
+        # self.product_id = product_id
         self.name_and_images = name_and_images
         self.reviews = reviews
         self.stars = stars
         self.price = price
+        
     
     def adapt_url(self, Page, country_domain, user_request):
         if country_domain[0] != ".":
@@ -67,20 +69,18 @@ class Page:
         adapted_url = adapted_url.replace(Page.url_replacers[1], user_request_adapted)
 
         return adapted_url
-
         
-
-
 Amazon = Page(url='https://www.amazon.com{country}/s?k={user_request}',
     url_replacers=('{country}', '{user_request}'),
     space_replacer='+',
     boxes=('div', 'data-component-type', 's-search-result'),
     highlights=('div', 'class', 'a-row a-badge-region'),
-    product_urls=('a', 'class', 'a-link-normal'),
-    name_and_images=('div', 'class', 'a-section a-spacing-small'),
-    reviews=('a', 'class', 'a-size-small a-link-normal'),
+    product_urls=('a', 'class', 'a-link-normal a-text-normal'),
+    name_and_images=('div', 'class', 'a-section aok-relative s-image-square-aspect'),
+    reviews=('span', 'class', 'a-size-base'),
     stars=('span', 'class', 'a-icon-alt'),
-    price=('span', 'class', 'p13n-sc-price')
+    price=('span', 'class', 'p13n-sc-price'),
+    #product_id('data-asin')
     )
 
 # Mercado_Libre = Page(url='https://listado.mercadolibre.com.{country}/{user_request}#D[A:{user_request}]',
