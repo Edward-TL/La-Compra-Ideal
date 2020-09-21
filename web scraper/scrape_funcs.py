@@ -2,6 +2,7 @@
 #Web Manage
 from bs4 import BeautifulSoup
 import requests
+import re
 
 #Personal
 from scrape_data import headers
@@ -37,22 +38,3 @@ def get_brute_info(boxes_array, info_tuple):
         i += 1
     
     return info
-
-#Name pending, could change with others scrapers
-def get_stars(boxes_array, info_tuple):
-    stars = [None]*len(boxes_array)
-
-    b=0
-    for box in boxes_array:
-        #Remember that boxes are arrays
-        searcher = search_boxes(box, info_tuple)
-
-        if searcher:
-            stars[b] = float(searcher[0].get_text()[:3])
-
-        else: stars[b] = searcher
-        b +=1
-    
-    return stars
-
-
