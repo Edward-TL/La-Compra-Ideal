@@ -1,9 +1,13 @@
 import unittest
-from scrape_funcs import extract_soup, search_boxes, get_brute_info
-from data_filters import get_stars
-from scrape_data import Amazon
 
-class Test_Amazon_Properties(unittest.TestCase):
+from scrape_data import Amazon
+from scrape_funcs import extract_soup, search_boxes, get_brute_info
+from data_filters import get_names, get_images, get_products_urls
+#Amazon Only
+from data_filters import get_stars, get_reviews, amazon_products_id
+
+
+class Test_Amazon_Properties_And_Functions(unittest.TestCase):
     #Replacers
     def test_user_request_amazon_adaption(self):
         user_request = 'audifonos inalambricos'
@@ -68,18 +72,26 @@ class Test_Amazon_Properties(unittest.TestCase):
         amazon_string_stars = get_brute_info(amazon_boxes, Amazon.stars)
         
         #New test
-        amazon_stars = get_stars(amazon_boxes, Amazon.stars)
+        amazon_stars = get_stars(country, amazon_boxes, Amazon.stars)
         self.assertEqual(len(amazon_boxes), len(amazon_string_stars), len(amazon_stars))
 
-    def test_get_stars_without_string_function(self):
+    def test_products_info_getters(self):
         user_request = 'audifonos inalambricos'
         country = 'mx'
         amazon_url = Amazon.adapt_url(Amazon, country, user_request)
         amazon_soup = extract_soup(amazon_url, 1, just_soup=True)
         amazon_boxes = search_boxes(amazon_soup, Amazon.boxes)
 
-        amazon_stars = get_stars(amazon_boxes, Amazon.stars)
-        self.assertEqual(len(amazon_boxes), len(amazon_stars))
+        amazon_names = len(get_names(amazon_boxes, Amazon.name_and_images))
+        amazon_images = len(get_images(amazon_boxes, Amazon.name_and_images))
+        amazon_urls = len(get_products_urls(amazon_boxes, Amazon.product_urls))
+        amazon_ids = len(amazon_products_id(amazon_boxes))
+        amazon_reviews = len(get_reviews(country, amazon_boxes, Amazon.reviews))
+        amazon_stars = len(get_stars(country, amazon_boxes, Amazon.stars))
+
+        trials = [amazon_names, amazon_images, amazon_urls, amazon_ids, amazon_reviews, amazon_stars]
+        for test in trials:
+            self.assertEquals(len(amazon_boxes), test)
 
 
     # def test_user_request_wallmart_adaption(self):
