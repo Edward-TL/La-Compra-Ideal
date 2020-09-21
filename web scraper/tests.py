@@ -1,5 +1,5 @@
 import unittest
-from scrape_funcs import extract_soup
+from scrape_funcs import extract_soup, search_boxes, get_brute_info, get_stars
 from scrape_data import Amazon
 
 class Test_Amazon_Properties(unittest.TestCase):
@@ -36,6 +36,15 @@ class Test_Amazon_Properties(unittest.TestCase):
         amz_soup = extract_soup(amz_url, 1, just_soup=True)
 
         self.assertIsNotNone(amz_soup)
+
+    def test_get_brute_info_including_Nones(self):
+        user_request = 'audifonos inalambricos'
+        country = 'mx'
+        amz_url = Amazon.adapt_url(Amazon, country, user_request)
+        amz_soup = extract_soup(amz_url, 1, just_soup=True)
+
+        amz_boxes = search_boxes(amz_soup, Amazon.boxes)
+        self.assertEqual(len(amz_boxes), 60)
 
     # def test_user_request_wallmart_adaption(self):
     #     user_request = 'audifonos inalambricos'
