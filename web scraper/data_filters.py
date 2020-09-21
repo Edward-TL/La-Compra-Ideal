@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 from scrape_funcs import search_boxes
+from scrape_data import coins_dict
 
 def get_names(boxes_array, info_tuple):
     names = [None]*len(boxes_array)
@@ -29,18 +30,32 @@ def get_images(boxes_array, info_tuple):
         b +=1
     return names
 
-def amazon_products_id(boxes_array):
-    ids = [None]*len(boxes_array)
+def get_price(country, boxes_array, info_tuple):
+    price = [None]*len(boxes_array)
+
+    coin_symbol = coins_dict[country]
 
     b=0
     for box in boxes_array:
         #Remember that boxes are arrays
-        if box:
-            product_id = box.get('data-asin')
-            ids[b] = 'www.amazon.com.mx/dp/' + product_id
-            
+        searcher = search_boxes(box, info_tuple)
+        
+        if searcher:
+            if country == 'mx':
+                try:
+                    price[b] = float(searcher[0].get_text()[coin_symbol:].replace(',',''))
+                except:
+                    pass
+            elif country == 'br':
+                try:
+                    price[b] = float(searcher[0].get_text()[coin_symbol:].replace('.','').replace(',','.'))
+                except:
+                    pass
+                
+                
         b +=1
-    return ids
+    
+    return price
 
 def get_products_urls(boxes_array, info_tuple):
     urls = [None]*len(boxes_array)
@@ -73,6 +88,19 @@ def get_stars(country, boxes_array, info_tuple):
         b +=1
     
     return stars
+
+def amazon_products_id(boxes_array):
+    ids = [None]*len(boxes_array)
+
+    b=0
+    for box in boxes_array:
+        #Remember that boxes are arrays
+        if box:
+            product_id = box.get('data-asin')
+            ids[b] = 'www.amazon.com.mx/dp/' + product_id
+            
+        b +=1
+    return ids
 
 def get_reviews(country, boxes_array, info_tuple):
     reviews = [None]*len(boxes_array)
