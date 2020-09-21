@@ -79,9 +79,12 @@ Amazon = Page(url='https://www.amazon.com{country}/s?k={user_request}',
     name_and_images=('div', 'class', 'a-section aok-relative s-image-square-aspect'),
     reviews=('span', 'class', 'a-size-base'),
     stars=('span', 'class', 'a-icon-alt'),
-    price=('span', 'class', 'p13n-sc-price'),
+    price=('span', 'class', 'a-offscreen'),
     #product_id('data-asin')
     )
+
+coins_dict = {'mx':1,
+                'br':2,}
 
 # Mercado_Libre = Page(url='https://listado.mercadolibre.com.{country}/{user_request}#D[A:{user_request}]',
 #     url_replacers=('{country}', '{user_request}'),
