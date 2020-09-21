@@ -42,9 +42,21 @@ class Test_Amazon_Properties(unittest.TestCase):
         country = 'mx'
         amz_url = Amazon.adapt_url(Amazon, country, user_request)
         amz_soup = extract_soup(amz_url, 1, just_soup=True)
-
+        
+        #New test
         amz_boxes = search_boxes(amz_soup, Amazon.boxes)
         self.assertEqual(len(amz_boxes), 60)
+
+    def test_get_brute_info_without_losses(self):
+        user_request = 'audifonos inalambricos'
+        country = 'mx'
+        amazon_url = Amazon.adapt_url(Amazon, country, user_request)
+        amazon_soup = extract_soup(amazon_url, 1, just_soup=True)
+        amazon_boxes = search_boxes(amazon_soup, Amazon.boxes)
+
+        #New test
+        amazon_string_stars = get_brute_info(amazon_boxes, Amazon.stars)
+        self.assertEqual(len(amazon_boxes), len(amazon_string_stars))
 
     # def test_user_request_wallmart_adaption(self):
     #     user_request = 'audifonos inalambricos'
