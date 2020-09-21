@@ -1,5 +1,6 @@
 import unittest
-from scrape_funcs import extract_soup, search_boxes, get_brute_info, get_stars
+from scrape_funcs import extract_soup, search_boxes, get_brute_info
+from data_filters import get_stars
 from scrape_data import Amazon
 
 class Test_Amazon_Properties(unittest.TestCase):
