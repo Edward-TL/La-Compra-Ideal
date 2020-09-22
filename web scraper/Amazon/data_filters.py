@@ -1,8 +1,12 @@
-from bs4 import BeautifulSoup
-import requests
+# import sys
+# import os
 
-from scrape_funcs import search_boxes
-from scrape_data import coins_dict
+# PACKAGE_PARENT = '..'
+# SCRIPT_DIR = os.path.dirname(os.path.realpath(os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+# sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, PACKAGE_PARENT)))
+
+from General.scrape_funcs import search_boxes
+from General.scrape_data import coins_dict
 
 def get_names(boxes_array, info_tuple, test=False):
     names = [None]*len(boxes_array)
@@ -139,4 +143,3 @@ def amazon_products_id(boxes_array, test=False):
     if test == True:
         print(ids)
     return ids
-
