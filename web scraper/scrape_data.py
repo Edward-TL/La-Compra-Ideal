@@ -69,6 +69,13 @@ class Page:
         adapted_url = adapted_url.replace(Page.url_replacers[1], user_request_adapted)
 
         return adapted_url
+
+class Products:
+    def __init__(self, names, images_links, products_links, prices):
+        self.names = names
+        self.images = images_links
+        self.products_links = products_links
+        self.prices = prices
         
 Amazon = Page(url='https://www.amazon.com{country}/s?k={user_request}',
     url_replacers=('{country}', '{user_request}'),
@@ -86,9 +93,16 @@ Amazon = Page(url='https://www.amazon.com{country}/s?k={user_request}',
 coins_dict = {'mx':1,
                 'br':2,}
 
-# Mercado_Libre = Page(url='https://listado.mercadolibre.com.{country}/{user_request}#D[A:{user_request}]',
-#     url_replacers=('{country}', '{user_request}'),
-#     space_replacer='%20')
+Mercado_Libre = Page(url='https://listado.mercadolibre.com.{country}/{user_request}#D[A:{user_request}]',
+    url_replacers=('{country}', '{user_request}'),
+    space_replacer='%20',
+    boxes=('div', 'class', 'ui-search-result__wrapper'),
+    highlights=('span', 'class', 'ui-search-item__highlight-label__text'),
+    product_urls=('a', 'class', 'a-link-normal a-text-normal'),
+    name_and_images=('div', 'class', 'ui-search-result__image'),
+    reviews=None,
+    stars=None,
+    price=('span', 'class', 'price-tag ui-search-price__part'),)
 
 # Wallmart = Page(url='https://www.walmart.com{country}/productos?Ntt={request}',
 #     url_replacers=('{country}', '{request}'),
